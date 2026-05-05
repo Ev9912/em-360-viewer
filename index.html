@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#161616">
+  <title>EM 360 Image Viewer</title>
+  <link rel="manifest" href="./manifest.json">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/compass-plugin@5/index.css">
+  <link rel="stylesheet" href="app.css">
+
+  <!--
+    PSV 5.x ships ESM only — import map wires three + PSV packages to esm.sh CDN.
+    Must appear before any <script type="module">.
+  -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":                               "https://esm.sh/three@0.167",
+      "three/addons/":                       "https://esm.sh/three@0.167/examples/jsm/",
+      "@photo-sphere-viewer/core":           "https://esm.sh/@photo-sphere-viewer/core@5",
+      "@photo-sphere-viewer/compass-plugin": "https://esm.sh/@photo-sphere-viewer/compass-plugin@5"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- exifr as UMD global — executes before module scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/full.umd.js"></script>
+
+  <div id="app">
+
+    <!-- Welcome screen -->
+    <div id="welcome">
+      <div class="welcome-inner">
+        <div class="welcome-icon">&#9677;</div>
+        <h1>360 Viewer</h1>
+        <p>Select a folder containing 360&deg; panorama images</p>
+        <button id="open-folder-btn" class="btn-primary">Open Folder</button>
+        <p class="welcome-hint">Chrome or Edge required &middot; JPG &amp; PNG supported</p>
+      </div>
+    </div>
+
+    <!-- Viewer (hidden until folder is loaded) -->
+    <div id="viewer-shell" class="hidden">
+      <div id="psv-container"></div>
+
+      <!-- Thumbnail strip (Step 1.8) — hidden until folder loaded -->
+      <div id="thumb-strip" class="hidden">
+        <div id="thumb-track"></div>
+      </div>
+
+      <div id="control-bar">
+        <div class="ctrl-section ctrl-left">
+          <button id="btn-prev" class="ctrl-btn" title="Previous (Arrow Left)" disabled>&#8592;</button>
+          <span id="frame-counter">&mdash; / &mdash;</span>
+          <button id="btn-next" class="ctrl-btn" title="Next (Arrow Right)" disabled>&#8594;</button>
+        </div>
+        <div class="ctrl-section ctrl-center">
+          <span id="frame-label"></span>
+        </div>
+        <div class="ctrl-section ctrl-right">
+          <button id="btn-hdg" class="ctrl-btn-toggle" title="Heading Lock — snap to EXIF compass direction on each new frame">HDG</button>
+          <button id="btn-folder" class="ctrl-btn-text">Change Folder</button>
+          <a href="./guide.html" target="_blank" class="ctrl-btn-help" title="User guide">?</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="hidden">
+      <div class="loading-spinner"></div>
+      <p id="loading-msg">Scanning folder&hellip;</p>
+    </div>
+
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .catch(e => console.warn('SW registration failed:', e));
+      });
+    }
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

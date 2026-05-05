@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EM 360 Image Viewer — User Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: #0d0d0d;
+      color: #d8d8d8;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 28px 80px;
+    }
+
+    /* ─── Header ─── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    header svg { flex-shrink: 0; }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: #f0f0f0;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 3px;
+    }
+
+    /* ─── Sections ─── */
+    section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2a6dd9;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #e0e0e0;
+      margin: 20px 0 6px;
+    }
+
+    h3:first-of-type { margin-top: 0; }
+
+    p { color: #999; margin-bottom: 10px; }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: #d0d0d0; font-weight: 500; }
+
+    /* ─── Key badges ─── */
+    kbd {
+      display: inline-block;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 3px;
+      padding: 1px 7px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      color: #bbb;
+      white-space: nowrap;
+    }
+
+    /* ─── Control reference table ─── */
+    .control-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0;
+      border: 1px solid #1e1e1e;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .control-grid .key,
+    .control-grid .desc {
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .control-grid .key:last-of-type,
+    .control-grid .desc:last-of-type { border-bottom: none; }
+
+    .control-grid .key {
+      background: #141414;
+      color: #bbb;
+      white-space: nowrap;
+      border-right: 1px solid #1e1e1e;
+      font-size: 0.82rem;
+    }
+
+    .control-grid .desc {
+      background: #111;
+      color: #888;
+    }
+
+    /* ─── Steps list ─── */
+    ol, ul {
+      padding-left: 1.4em;
+      color: #888;
+    }
+
+    li { margin-bottom: 8px; font-size: 0.9rem; }
+    li:last-child { margin-bottom: 0; }
+    li strong { color: #d0d0d0; }
+
+    /* ─── Callout boxes ─── */
+    .callout {
+      border-left: 3px solid #2a6dd9;
+      background: #101820;
+      padding: 12px 16px;
+      border-radius: 0 4px 4px 0;
+      margin: 14px 0;
+    }
+
+    .callout p { color: #7a9fc8; font-size: 0.88rem; margin: 0; }
+    .callout strong { color: #9bbee0; }
+
+    .callout.warn {
+      border-left-color: #7a5c1a;
+      background: #181408;
+    }
+    .callout.warn p { color: #aa8844; }
+    .callout.warn strong { color: #ccaa66; }
+
+    /* ─── Share options ─── */
+    .share-option {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+
+    .share-option h3 {
+      margin: 0 0 6px;
+      font-size: 0.9rem;
+      color: #e0e0e0;
+    }
+
+    .share-option p { font-size: 0.86rem; margin: 0; }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .badge.rec { background: #142d57; color: #6ba3f5; }
+    .badge.off { background: #1a1a1a; color: #555; }
+
+    /* ─── Footer ─── */
+    footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #1a1a1a;
+      font-size: 0.78rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <svg width="48" height="48" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <rect width="512" height="512" rx="88" fill="#161616"/>
+    <rect x="100" y="168" width="312" height="178" rx="24" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+    <circle cx="256" cy="254" r="64" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+    <circle cx="256" cy="254" r="22" fill="#e8e8e8"/>
+    <rect x="150" y="124" width="82" height="46" rx="12" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+    <path d="M 68 400 A 192 54 0 0 1 444 400" fill="none" stroke="#e8e8e8" stroke-width="22" stroke-linecap="round"/>
+    <path d="M 422 374 L 446 400 L 422 424" fill="none" stroke="#e8e8e8" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div>
+    <h1>EM 360 Image Viewer</h1>
+    <p>User guide — Phase 1</p>
+  </div>
+</header>
+
+<!-- ─── Requirements ─── -->
+<section>
+  <h2>Requirements</h2>
+  <p><strong>Browser:</strong> Google Chrome or Microsoft Edge (Chromium-based). Firefox and Safari are not supported.</p>
+  <p><strong>Images:</strong> Equirectangular JPG or PNG panoramas. Standard output from Ricoh Theta, Insta360, GoPro Max, and similar cameras.</p>
+  <p><strong>Running the app:</strong> Open <kbd>start-server.bat</kbd> in the app folder first, then navigate to <strong>localhost:8000</strong> in Chrome or Edge. ES modules require a local server — the app will not work if opened directly as a file.</p>
+</section>
+
+<!-- ─── Opening a Folder ─── -->
+<section>
+  <h2>Opening a Folder</h2>
+  <ol>
+    <li>Click <strong>Open Folder</strong> on the welcome screen.</li>
+    <li>Select the folder containing your 360° images. Subfolders are automatically included — each subfolder becomes a separate group.</li>
+    <li>Chrome will show a permission prompt: <em>"Let site edit files?"</em> — click <strong>Edit files</strong>. This is required so the app can save your last-viewed position between sessions.</li>
+    <li>The app scans the folder, reads EXIF data, and opens the first image. On subsequent opens of the same folder this is nearly instant (data is cached).</li>
+  </ol>
+  <div class="callout">
+    <p><strong>Last-viewed frame:</strong> When you reopen a folder, the app automatically returns to the last image you were viewing.</p>
+  </div>
+</section>
+
+<!-- ─── Navigation ─── -->
+<section>
+  <h2>Navigation</h2>
+
+  <h3>Moving between images</h3>
+  <div class="control-grid">
+    <span class="key"><kbd>←</kbd> <kbd>→</kbd> arrow keys</span>
+    <span class="desc">Previous / next image</span>
+
+    <span class="key">← → buttons</span>
+    <span class="desc">Previous / next image (on-screen)</span>
+
+    <span class="key">Click a thumbnail</span>
+    <span class="desc">Jump directly to any image</span>
+  </div>
+
+  <h3>Looking around inside an image</h3>
+  <div class="control-grid">
+    <span class="key">Click &amp; drag</span>
+    <span class="desc">Pan the view in any direction</span>
+
+    <span class="key">Scroll wheel</span>
+    <span class="desc">Zoom in / out</span>
+
+    <span class="key">Pinch (touch)</span>
+    <span class="desc">Zoom in / out on touch screens</span>
+  </div>
+
+  <div class="callout">
+    <p><strong>View state is preserved.</strong> When you move to a different image and come back, your pan and zoom position is restored exactly as you left it.</p>
+  </div>
+</section>
+
+<!-- ─── Controls Reference ─── -->
+<section>
+  <h2>Control Bar</h2>
+
+  <h3>HDG — Heading Lock</h3>
+  <p>When <strong>HDG</strong> is active (highlighted blue), each new image opens pointing in the compass direction recorded by the camera at capture time (from EXIF GPano data). Use this when walking a straight corridor or comparing images shot in the same direction.</p>
+  <p>When <strong>HDG</strong> is off, your current pan angle carries forward to the next image — useful when you want to keep looking at the same wall or feature as you step through a sequence.</p>
+
+  <h3>Compass rose</h3>
+  <p>The compass in the top-right corner of the viewer rotates as you pan. North is the direction the camera recorded as north at capture time.</p>
+
+  <h3>Frame counter and filename</h3>
+  <p>The counter in the bottom-left shows your current position in the folder (e.g., <strong>14 / 47</strong>). The filename is shown in the centre of the control bar.</p>
+
+  <h3>Change Folder</h3>
+  <p>Opens a new folder picker without reloading the page. Your view state from the previous folder is discarded.</p>
+</section>
+
+<!-- ─── Thumbnail Strip ─── -->
+<section>
+  <h2>Thumbnail Strip</h2>
+  <p>The strip along the bottom of the viewer shows all images in the current folder. Thumbnails load lazily as you scroll — the strip handles large folders without slowing down the initial load.</p>
+  <p>The active image is highlighted with a blue border. Clicking any thumbnail jumps to that image immediately.</p>
+</section>
+
+<!-- ─── Sort Order ─── -->
+<section>
+  <h2>Sort Order</h2>
+  <p>Images are sorted by <strong>capture time</strong> (EXIF <code>DateTimeOriginal</code>) when available. If capture time is absent or identical, images fall back to a natural filename sort (IMG_001, IMG_002 … IMG_010 rather than alphabetical).</p>
+</section>
+
+<!-- ─── Cache File ─── -->
+<section>
+  <h2>Cache File (.tour.json)</h2>
+  <p>The first time you open a folder, the app writes a hidden file called <strong>.tour.json</strong> into that folder. It stores the image list, EXIF data, and your last-viewed position.</p>
+  <p>On subsequent opens, this file is used instead of re-reading EXIF from every image — making reopens near-instant for large folders. If images are added or removed, the cache is automatically discarded and a fresh scan runs.</p>
+  <div class="callout warn">
+    <p><strong>SharePoint / OneDrive:</strong> If the folder is synced to the cloud, <code>.tour.json</code> will sync alongside the images. It is a small text file (~5 KB for 100 images) and safe to leave in place. It does not modify the images themselves.</p>
+  </div>
+</section>
+
+<!-- ─── Install as App ─── -->
+<section>
+  <h2>Installing as a Desktop App (PWA)</h2>
+  <p>With the app open in Chrome or Edge, look for the install icon (⊕) in the address bar and click it. This adds <strong>EM 360 Image Viewer</strong> to your Start Menu and taskbar. It opens in its own window with no browser UI — like a native app.</p>
+  <p>The installed version still requires <kbd>start-server.bat</kbd> to be running in the background. A quick way to handle this is to add a shortcut to <code>start-server.bat</code> to your Startup folder so it runs automatically at login.</p>
+  <div class="callout">
+    <p>To add to Windows Startup: press <kbd>Win + R</kbd>, type <strong>shell:startup</strong>, and paste a shortcut to <code>start-server.bat</code> into the folder that opens.</p>
+  </div>
+</section>
+
+<!-- ─── Sharing ─── -->
+<section>
+  <h2>Sharing &amp; Installing on Other Computers</h2>
+
+  <div class="share-option">
+    <h3>Static web hosting <span class="badge rec">Recommended</span></h3>
+    <p>Upload the app folder to a static host (Netlify, GitHub Pages, or an internal IIS/nginx server). Colleagues open the URL in Chrome and click the install button — no files to distribute, no setup required. The app caches itself after the first load and works offline.</p>
+  </div>
+
+  <div class="share-option">
+    <h3>ZIP &amp; local launcher <span class="badge off">Offline / air-gapped</span></h3>
+    <p>Zip the app folder and send it. The recipient unzips it, double-clicks <strong>start-server.bat</strong> (requires Python 3 or Node.js), then opens <strong>localhost:8000</strong> in Chrome. From there they can also install it as a PWA. Python 3 is included with most Windows 11 installs via the Store.</p>
+  </div>
+
+  <div class="share-option">
+    <h3>Windows installer (.exe) <span class="badge off">Phase 2 — not yet built</span></h3>
+    <p>A future Tauri build will produce a proper Windows installer with a Start Menu entry, no server required, and optional "Open With" file association for JPG files.</p>
+  </div>
+
+  <div class="callout warn">
+    <p><strong>SharePoint document library:</strong> Uploading the files to a SharePoint document library and opening them directly will not work — SharePoint does not serve JavaScript modules with the correct MIME type. Use a dedicated static host or the ZIP method instead.</p>
+  </div>
+</section>
+
+<!-- ─── Tips ─── -->
+<section>
+  <h2>Tips</h2>
+  <ul>
+    <li><strong>Large folders:</strong> The first open of a folder with 200+ images takes 10–30 seconds while EXIF is read. Subsequent opens are instant (cache hit).</li>
+    <li><strong>Subfolders:</strong> Each immediate subfolder becomes its own group. Deeply nested folders (more than one level down) are ignored.</li>
+    <li><strong>Non-360 images:</strong> JPG and PNG files that are not equirectangular panoramas will still open — they'll just look distorted in the spherical viewer. There is no automatic filtering by aspect ratio.</li>
+    <li><strong>HEIC / iPhone:</strong> HEIC format is not supported in Phase 1. Convert to JPG before use.</li>
+    <li><strong>Multiple monitors:</strong> The installed PWA window can be moved and resized freely. PSV renders at full resolution regardless of window size.</li>
+  </ul>
+</section>
+
+<footer>
+  EM 360 Image Viewer — Phase 1 &nbsp;·&nbsp; Built with Photo Sphere Viewer 5 (MIT), exifr 7 (MIT) &nbsp;·&nbsp; 2026
+</footer>
+
+</body>
+</html>

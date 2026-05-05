@@ -1,0 +1,18 @@
+{
+  "name": "EM 360 Image Viewer",
+  "short_name": "360 Viewer",
+  "description": "360° panorama folder viewer for site and field documentation",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#161616",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

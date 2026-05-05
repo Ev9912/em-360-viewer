@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background: dark rounded square -->
+  <rect width="512" height="512" rx="88" fill="#111111"/>
+
+  <!-- Camera body -->
+  <rect x="100" y="168" width="312" height="178" rx="24" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+
+  <!-- Lens ring -->
+  <circle cx="256" cy="254" r="64" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+  <!-- Lens centre dot -->
+  <circle cx="256" cy="254" r="22" fill="#e8e8e8"/>
+
+  <!-- Viewfinder bump (top of camera) -->
+  <rect x="150" y="124" width="82" height="46" rx="12" fill="none" stroke="#e8e8e8" stroke-width="22"/>
+
+  <!-- Rotation arc — sweeps below the camera body -->
+  <path d="M 68 400 A 192 54 0 0 1 444 400"
+        fill="none" stroke="#e8e8e8" stroke-width="22" stroke-linecap="round"/>
+
+  <!-- Arrowhead at right end of arc (pointing upper-right, indicating clockwise motion) -->
+  <path d="M 422 374 L 446 400 L 422 424"
+        fill="none" stroke="#e8e8e8" stroke-width="22"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
